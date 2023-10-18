@@ -1,7 +1,7 @@
-const path = require('path');
-const fs = require('fs');
-const express = require('express');
-const { uuid } = require('uuidv4');
+const path = require("path");
+const fs = require("fs");
+const express = require("express");
+const { uuid } = require("uuidv4");
 
 // process.env.PORT for Heroku. 3001 for local.
 const PORT = process.env.PORT || 3001;
@@ -15,22 +15,22 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Middleware to serve static files from the public folder
-app.use(express.static('public'));
+app.use(express.static("public"));
 
 // Route to render index.html when the user accesses the root URL
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public/index.html'))
+app.get("/", (req, res) => {
+    res.sendFile(path.join(__dirname, "public/index.html"))
 });
 
 // Route for notes.html
-app.get('/notes', (req, res) =>
-    res.sendFile(path.join(__dirname, 'public/notes.html'))
+app.get("/notes", (req, res) =>
+    res.sendFile(path.join(__dirname, "public/notes.html"))
 );
 
 // Read JSON file located at ./db/db.json, parse its contents, then send the parsed JSON data as a response
-app.get('/api/notes', async (req, res) => {
+app.get("/api/notes", async (req, res) => {
     try {
-        const notesData = await fs.readFileSync('./db/db.json', 'utf-8');
+        const notesData = await fs.readFileSync("./db/db.json", "utf-8");
         const parsedNotesData = JSON.parse(notesData);
         return res.json(parsedNotesData);
     } catch (err) {
@@ -40,7 +40,7 @@ app.get('/api/notes', async (req, res) => {
 
 // Route to post new notes
 // Receive new note, give it a unique id, add to db.json, return new note to user
-app.post('/api/notes', async (req, res) => {
+app.post("/api/notes", async (req, res) => {
     try {
         console.info(`${req.method} request received to add a note.`);
 
@@ -79,12 +79,35 @@ app.post('/api/notes', async (req, res) => {
 }
 );
 
+// Route to delete notes
+app.delete("/api/notes/:id", async (req, res) => {
+    try {
+        const notesData = await fs.readFileSync("./db/db.json", "utf-8");
+        const parsedNotesData = JSON.parse(notesData);
 
+        // Extract the ID of the note to be deleted from the request parameters.
+        // Get the ID of the note to be deleted
+        const deletedNoteID = req.params.id;
+        
+        // Filter out the note with the matching ID from the array of notes
+        const updatedNotes = parsedNotesData.filter(note => note.id !== deletedNoteID);
+        
+        // Convert the filtered notes back to a JSON string
+        const updatedNotesString = JSON.stringify(updatedNotes, null, 2);
+        
+        // Write the updated JSON data back to the file
+        await fs.writeFileSync("./db/db.json", updatedNotesString);
 
+        // Return a JSON response with the updated notes
+        return res.json(updatedNotes);
+    } catch (error) {
+        return res.status(500).json(err);
+    }
+});
 
 // Catch-all route for HTTP GET requests that sends back index.html
-app.get('*', (req, res) => {
-    return res.sendFile(path.join(__dirname, 'public/index.html'))
+app.get("*", (req, res) => {
+    return res.sendFile(path.join(__dirname, "public/index.html"))
 });
 
 // Listen for requests and console log a message once the server is running
