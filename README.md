@@ -17,7 +17,7 @@ This project is an application for taking notes. The application enables the use
 
 ## Installation
 
-Access this application from the link: 
+Access this application here: https://danhalsim-note-taker-5468ce4df576.herokuapp.com/
 
 ## Usage
 
