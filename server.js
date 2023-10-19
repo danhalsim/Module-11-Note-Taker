@@ -42,8 +42,6 @@ app.get("/api/notes", async (req, res) => {
 // Receive new note, give it a unique id, add to db.json, return new note to user
 app.post("/api/notes", async (req, res) => {
     try {
-        console.info(`${req.method} request received to add a note.`);
-
     const { title, text } = req.body;
 
     if (title && text) {
@@ -61,8 +59,6 @@ app.post("/api/notes", async (req, res) => {
         const stringDataArray = JSON.stringify(dataArray, null, 2);
 
         await fs.writeFileSync("./db/db.json", stringDataArray);
-
-        console.info(`${newNote.title} has been added to JSON file.`);
 
         const response = {
             status: "Success",

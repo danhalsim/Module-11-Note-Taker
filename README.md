@@ -3,7 +3,7 @@
 
 ## Description
 
-
+This project is an application for taking notes. The application enables the user to write, save, and delete notes.
 
 ## Table of Contents
 
@@ -21,20 +21,21 @@ Access this application from the link:
 
 ## Usage
 
-
+Enter the your note title and text into the fields. Save or delete your notes by clicking the respective buttons.
 
 ## Credits
 
+- MDN Web Docs for help with understanding API Requests
+    - https://developer.mozilla.org/en-US/docs/Web/API/Request
+- MDN Web docs for help with understanding the filter method
+    - https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/filter
 - Xpert Learning Assistant for help with:
-  - Understanding switch cases (generateMarkdown.js lines 4-14, 21-31)
-  - Understanding the fs module (index.js lines 68-72)
-- MDN Web Docs for help with understanding template literals
-  - https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals
-- Inquirer package
-  - https://www.npmjs.com/package/inquirer
-- BCS for the acceptance criteria and README template
-
-- 
+    - Handling post requests (server.js lines 54-66)
+    - Handling delete requests (server.js lines 89-92)
+- Express
+    - https://www.npmjs.com/package/express
+- UUID
+    - https://www.npmjs.com/package/uuid
 
 ## License
 
